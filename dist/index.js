@@ -16,6 +16,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.io = void 0;
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const socket_io_1 = require("socket.io");
 const express_1 = __importDefault(require("express"));
@@ -30,7 +31,11 @@ const type_1 = require("./type");
 const login_1 = __importDefault(require("./routes/auth/login"));
 const register_1 = __importDefault(require("./routes/auth/register"));
 const getrooms_1 = __importDefault(require("./routes/rooms/getrooms"));
+const invite_1 = __importDefault(require("./routes/rooms/invite"));
+const myrooms_1 = __importDefault(require("./routes/rooms/myrooms"));
 const collection_1 = __importDefault(require("./lib/db/collection"));
+const email_1 = __importDefault(require("./routes/notification/email"));
+const me_1 = __importDefault(require("./routes/profile/me"));
 const zod_1 = require("zod");
 const getroomByid_1 = require("./utils/getroomByid");
 dotenv_1.default.config();
@@ -42,8 +47,9 @@ const io = new socket_io_1.Server(server, {
         credentials: true,
     }
 });
-app.use(express_1.default.urlencoded({ extended: true }));
+exports.io = io;
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     origin: "http://localhost:3000",
@@ -52,6 +58,10 @@ app.use((0, cors_1.default)({
 app.use("/api/auth", login_1.default);
 app.use("/api/auth", register_1.default);
 app.use("/api/room", getrooms_1.default);
+app.use("/api/room", invite_1.default);
+app.use("/api/room", myrooms_1.default);
+app.use("/api/profile", me_1.default);
+app.use("/api/email", email_1.default);
 /**
  * Middleware to authenticate socket connections using JWT.
  * Adds `user` field to socket if valid token is present.
