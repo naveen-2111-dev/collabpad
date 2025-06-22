@@ -24,6 +24,7 @@ router.get("/getrooms", blockBots, async (req: Request, res: Response): Promise<
             success: true,
             rooms: data,
         });
+        return;
     } catch (err) {
         console.error("Error fetching rooms:", err);
         res.status(500).json({
@@ -31,6 +32,7 @@ router.get("/getrooms", blockBots, async (req: Request, res: Response): Promise<
             message: "Internal server error",
             error: err instanceof Error ? err.message : err,
         });
+        return;
     }
 });
 

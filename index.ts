@@ -17,7 +17,10 @@ import { AuthenticatedSocket, COLLECTIONS } from "./type";
 import login from "./routes/auth/login";
 import register from "./routes/auth/register";
 import rooms from "./routes/rooms/getrooms";
+import inviteroom from "./routes/rooms/invite";
+import myroom from "./routes/rooms/myrooms";
 import getCollection from "./lib/db/collection";
+import me from "./routes/profile/me";
 import { z } from "zod";
 import { getRoomById } from "./utils/getroomByid";
 
@@ -32,8 +35,8 @@ const io = new Server(server, {
     }
 });
 
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors({
     origin: "http://localhost:3000",
@@ -43,6 +46,9 @@ app.use(cors({
 app.use("/api/auth", login);
 app.use("/api/auth", register);
 app.use("/api/room", rooms);
+app.use("/api/room", inviteroom);
+app.use("/api/room", myroom);
+app.use("/api/profile", me);
 
 /**
  * Middleware to authenticate socket connections using JWT.
@@ -255,3 +261,5 @@ io.on("connection", (socket) => {
 server.listen(process.env.PORT, () => {
     console.log(`Server running at http://localhost:${process.env.PORT}`);
 });
+
+export { io };

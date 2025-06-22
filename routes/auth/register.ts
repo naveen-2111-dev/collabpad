@@ -64,6 +64,7 @@ const registerHandler: RequestHandler = async (req: Request, res: Response): Pro
                 email: validated.email
             }
         });
+        return;
 
     } catch (err: any) {
         console.error("Register error:", err);

@@ -38,3 +38,8 @@ export interface Room {
     updatedAt: Date;
 }
 
+export interface JwtPayloadTypes {
+    userId: string;
+    email: string;
+    iat: number;
+}

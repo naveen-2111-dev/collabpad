@@ -92,7 +92,6 @@ router.post("/login", loginLimiter, async (req: Request, res: Response) => {
   } catch (err: any) {
     console.error("Login error:", err);
 
-    // Don't expose internal errors to client
     const isValidationError = err.name === "ZodError";
     res.status(isValidationError ? 400 : 500).json({
       error: isValidationError ? "Invalid input data" : "Internal server error"
