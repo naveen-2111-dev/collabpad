@@ -20,6 +20,7 @@ import rooms from "./routes/rooms/getrooms";
 import inviteroom from "./routes/rooms/invite";
 import myroom from "./routes/rooms/myrooms";
 import getCollection from "./lib/db/collection";
+import mail from "./routes/notification/email";
 import me from "./routes/profile/me";
 import { z } from "zod";
 import { getRoomById } from "./utils/getroomByid";
@@ -49,6 +50,7 @@ app.use("/api/room", rooms);
 app.use("/api/room", inviteroom);
 app.use("/api/room", myroom);
 app.use("/api/profile", me);
+app.use("/api/email", mail);
 
 /**
  * Middleware to authenticate socket connections using JWT.
